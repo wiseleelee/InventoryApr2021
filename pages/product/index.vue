@@ -1,5 +1,5 @@
 <template>
-  <div>This is {{productName}}</div>
+  <div>This is {{products}}</div>
 </template>
 
 <script>
@@ -9,16 +9,16 @@ export default {
     layout: "layout_a",
     computed:{
       ...mapState({
-        productName: state => state.product.productName
+        products: state => state.product.products
       })
     },
     methods: {
       ...mapActions({
-        getProduct : "product/getProduct"
+        getProducts : "product/getProducts"
       })
     },
     mounted(){
-      this.getProduct();
+      this.getProducts();
     }
 }
 </script>
