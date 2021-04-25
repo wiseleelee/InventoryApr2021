@@ -1,36 +1,59 @@
 <template>
-  <div class="w-screen h-screen bg-yellow-500 p-20"> <!-- Parent -->
-    <div class="text-blue-700 text-2xl">
-      PARENT <i class="fas fa-igloo"></i>
-    </div>
-    <div class="flex w-full bg-blue-500 md:bg-red-500 p-14"> <!-- Child 1 -->
-      CHILD 1
-      <testimonial></testimonial>
-    </div>
-    <div class="flex w-full bg-red-500 md:bg-blue-500 p-14"> <!-- Child 2 -->
-      CHILD 2 {{productName}}
-      <testimonial
-        img_src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-        name="Edmund"
-        title="FullStack"
-        content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo cupiditate enim quod voluptate, excepturi aperiam. Ipsa quisquam tempore ex facilis reprehenderit deleniti molestias, similique ipsam officia totam odio libero sunt!"
-      >
-      </testimonial>
+  <div class='w-screen h-screen bg-yellow-500 px-10 flex'>
+    <div class="m-auto w-full md:w-1/2">
+    <input-element 
+      labelName="email" 
+      labelId="email" 
+      inputType="email"
+      :model="email" 
+      @input="email = $event"
+      class="my-2" 
+    />
+    <input-element
+      labelName="Password"
+      labelID="password"
+      inputType="password"
+      :model="password"
+      @input="password = $event"
+      class="my-2"
+      />
+      <button type="button" @click="login"
+      class="w-full py-2 px-4 bg-gray-800 text-gray-100 ease-in-out duration-300">Login</button>
+      
     </div>
   </div>
 </template>
 
 <script>
-import { mapState} from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
-    computed:{
-      ...mapState({
-        productName: state => state.product.productName
-      })
+  computed:{
+    ...mapState({
+      // Check user login status (default: false)
+      isLoggedIn : state => state.auth.isLoggedIn,
+    })
+  },
+  data: function(){
+    return{
+      email: "",
+      password: ""
     }
+  },
+  methods:{
+    login: function(){
+      //login with email and password
+      this.emailLogin({ email:this.email, password:this.password})
+    },
+    ...mapActions({
+      emailLogin:"auth/firebaseLogin", //store/auth.js - Login with email % pass
+      getIdToken: "auth/getIdToken" // stire/auth.js - get auth token from firebase
+    })
+  },
+  mounted(){
+    if(this.isLoggedIn){ //if user is already login
+      this.getIdToken(); //get auth token from firebase again
+      this.$router.push("/product") //redirect user to login page
+    }
+  },
 }
 </script>
-
-<style>
-
-</style>

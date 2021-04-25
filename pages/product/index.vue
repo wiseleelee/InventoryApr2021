@@ -6,10 +6,12 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-    layout: "layout_a",
+    layout: "dashboard",
     computed:{
       ...mapState({
-        products: state => state.product.products
+        products: state => state.product.products,
+        token: state => state.auth.user.idToken,
+        uid: state => state.auth.user.uid,
       })
     },
     methods: {
@@ -18,7 +20,7 @@ export default {
       })
     },
     mounted(){
-      this.getProducts();
+      this.getProducts({uid:this.uid, token:this.token});
     }
 }
 </script>

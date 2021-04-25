@@ -41,12 +41,21 @@ export const mutations = {
 }
 
 export const actions = {
-    async getProducts ({ commit }) {
+    async getProducts ({ commit }, credential) {
+        this.$axios.setHeader('uid', credential.uid);
+        this.$axios.setHeader('idtoken', credential.token);
         const products = await this.$axios.$get('/products')
         commit('setProducts', products["products"])
       },
-    async createProduct ({state}){
-        const status = await this.$axios.$post('/products/new', state)
-        console.log(status)
+    async createProduct ({commit, state}, credential){
+        const headers = {
+            headers: {
+                uid: credential.uid,
+                idtoken: credential.token
+            }
+        };
+        const status = await this.$axios.$post('/products/new', state, headers);
+        commit('resetStore');
+        this.$router.push("/product");
     }
 }

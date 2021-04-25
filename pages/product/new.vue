@@ -71,9 +71,14 @@ export default {
         supplierName: state => state.product.supplierName,
         quantity: state => state.product.quantity,
         imgSrc: state => state.product.imgSrc,
+        uid: state => state.auth.user.uid,
+        token: state => state.auth.user.idToken
       })
     },
     methods: {
+      newProduct: function() {
+        this.createProduct({uid:this.uid,token:this.token})
+      },
       ...mapMutations({
         setProductName : 'product/setProductName',
         setPrice: 'product/setPrice',
