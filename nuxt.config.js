@@ -12,6 +12,9 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script:[
+      {crossorigin: 'anonymous', type: 'text/javascript', src:"https://kit.fontawesome.com/f35f2f56dd.js"}
     ]
   },
 
